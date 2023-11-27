@@ -27,7 +27,7 @@ const pool = mysql.createPool({
 const testConnectionDB = () => {
   return new Promise((resolve, reject) => {
     // Todo: Esto cambiarlo por un usuario con menos privilegios
-    pool.query('CALL USP_TEST_CONNECTION()', function (err, results) {
+    pool.query('CALL test_connection()', function (err, results) {
       if (err) {
         return reject(err);
       }

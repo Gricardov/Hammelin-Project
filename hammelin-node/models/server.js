@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { processDocumentRoutes, worksRoutes } = require("../routes");
+const { processDocumentRoutes, worksRoutes, reportsRoutes } = require("../routes");
 const { testConnectionDB } = require('../database/pool');
 require('custom-env').env();
 
@@ -10,7 +10,8 @@ class Server {
         this.port = process.env.HOST_PORT;
         this.apiPaths = {
             processDocument: '/api/process-document',
-            works: '/api/works/'
+            works: '/api/works/',
+            reports: '/api/reports/'
         };
 
         // Conexión a la bd
@@ -53,6 +54,7 @@ class Server {
     routes() {
         this.app.use(this.apiPaths.processDocument, processDocumentRoutes);
         this.app.use(this.apiPaths.works, worksRoutes);
+        this.app.use(this.apiPaths.reports, reportsRoutes);
     }
 
     listen() {
