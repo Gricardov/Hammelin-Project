@@ -9,9 +9,9 @@ class Server {
         this.app = express();
         this.port = process.env.HOST_PORT;
         this.apiPaths = {
-            processDocument: '/api/process-document/',
-            works: '/api/works/',
-            reports: '/api/reports/'
+            processDocument: '/api/process-document',
+            works: '/api/works',
+            reports: '/api/reports'
         };
 
         // Middlewares
