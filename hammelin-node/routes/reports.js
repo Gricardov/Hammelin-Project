@@ -3,6 +3,6 @@ const { registerReport } = require("../controller/reports");
 
 const router = Router();
 
-router.put("/register", registerReport);
+router.put("/", registerReport);
 
 module.exports = router;
