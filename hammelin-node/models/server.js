@@ -14,21 +14,14 @@ class Server {
             reports: '/api/reports/'
         };
 
-        // Conexión a la bd
-        this.connectDB();
-
-        // Servidor Whatsapp
-        this.whatsapp();
-
         // Middlewares
         this.middlewares();
 
+        // Conexión a la bd
+        this.connectDB();
+
         // Rutas
         this.routes();
-    }
-
-    whatsapp() {
-        //wspServer.listen();
     }
 
     async connectDB() {
