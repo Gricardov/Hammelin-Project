@@ -1,6 +1,4 @@
 const { queryDB } = require('../database/pool');
-const { default: axios } = require('axios');
-const moment = require('moment');
 require('custom-env').env();
 
 const registerReport = async (req, res) => {
