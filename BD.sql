@@ -129,14 +129,14 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE obtener_obras()
 BEGIN
-	SELECT id_obra, ocid_obra, fecha, entidad, descripcion, licitacion_id, licitacion_des, licitacion_val, licitacion_mon, docs_json, porc_satis_obra, num_repor FROM obras ORDER BY porc_satis_obra DESC, num_repor DESC;
+	SELECT id_obra, ocid_obra, fecha, entidad, descripcion, licitacion_id, licitacion_des, licitacion_val, licitacion_mon, docs_json, porc_satis_obra, num_repor FROM obras ORDER BY fecha_creacion DESC;
 END //
 DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE obtener_mejores_obras()
 BEGIN
-	SELECT id_obra, ocid_obra, fecha, entidad, descripcion, licitacion_id, licitacion_des, licitacion_val, licitacion_mon, docs_json, porc_satis_obra, num_repor FROM obras;
+	SELECT id_obra, ocid_obra, fecha, entidad, descripcion, licitacion_id, licitacion_des, licitacion_val, licitacion_mon, docs_json, porc_satis_obra, num_repor FROM obras WHERE porc_satis_obra IS NOT NULL ORDER BY porc_satis_obra DESC, num_repor DESC;
 END //
 DELIMITER ;
 
