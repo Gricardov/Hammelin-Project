@@ -41,7 +41,7 @@ const processDocument = async (req, res) => {
     console.log('urlsToDownload', urlsToDownload);
     const pdfsData = await Promise.all(urlsToDownload.map(url => getPdfDataFromUrl(url)));
 
-    textsToAnalyze = pdfsData.map(pdf => pdf.text.slice(0, 45000).replace(/\n/g, " ").trim());
+    textsToAnalyze = pdfsData.map(pdf => pdf.text.slice(0, 50000).replace(/\n/g, " ").trim());
 
     console.log('textsToAnalyze', textsToAnalyze);
 
@@ -54,44 +54,29 @@ const processDocument = async (req, res) => {
 
     const questionsToMake = [
       {
-        delimiterTag: 'hia-sob',
-        name: 'sobre',
-        question: '¿De qué trata la obra?'
-      },
-      {
-        delimiterTag: 'hia-ub',
-        name: 'ubicacion',
-        question: '¿Cuál es la ubicación de la obra?'
-      },
-      {
         delimiterTag: 'hia-fin',
         name: 'finalidad',
         question: '¿Cuál es la finalidad de la obra?'
       },
       {
-        delimiterTag: 'hia-cui',
-        name: 'CUI',
-        question: '¿Cuál es el CUI de la obra?'
+        delimiterTag: 'hia-ubi',
+        name: 'ubicacion',
+        question: '¿Cuál es la ubicación de la obra?'
       },
       {
-        delimiterTag: 'hia-ade',
-        name: 'ADE',
-        question: '¿Qué debe adjuntar el contratista a su solicitud?'
+        delimiterTag: 'hia-pre',
+        name: 'presupuesto',
+        question: '¿Cuál es el presupuesto de la obra?'
       },
       {
-        delimiterTag: 'hia-pro',
-        name: 'provincia',
-        question: '¿En qué provincia será la obra?'
+        delimiterTag: 'hia-pla',
+        name: 'plazo',
+        question: '¿En qué plazo debería estar ejecutada la obra?'
       },
       {
-        delimiterTag: 'hia-dis',
-        name: 'distrito',
-        question: '¿En qué distrito será la obra?'
-      },
-      {
-        delimiterTag: 'hia-reg',
-        name: 'region',
-        question: '¿En qué región será la obra?'
+        delimiterTag: 'hia-ter',
+        name: 'terminado',
+        question: '¿Qué debería tener esta obra cuando esté terminada? Detállame'
       }
     ];
 
@@ -103,14 +88,15 @@ const processDocument = async (req, res) => {
         "role": "user",
         "content": `${textsToAnalyze.join('\n\n')}       
 
-    En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable. Pon tu respuesta dentro de los tags indicados:
+    En base al texto, responde las siguientes preguntas dentro de los tags:
 
     ${questionsToMake.map(q => `
     ${q.question}
-    <${q.delimiterTag}>Tu respuesta aquí</${q.delimiterTag}>\n`)}
+    <${q.delimiterTag}>Aquí pon tu respuesta</${q.delimiterTag}>\n`)}
     `}
       ],
-      model: 'ft:gpt-3.5-turbo-1106:personal::8PLF3bkn',
+      model: 'gpt-3.5-turbo-1106',
+      //model: 'ft:gpt-3.5-turbo-1106:personal::8PLF3bkn',
       //max_tokens: 16384
       //model: 'gpt-3.5-turbo-16k',
       //model: "gpt-3.5-turbo",
@@ -120,7 +106,7 @@ const processDocument = async (req, res) => {
     console.log('response', response);
     const keypoints = extractKeypointsFromText(response, questionsToMake);
     console.log('keypoints', keypoints);
-    res.json({ keypoints });
+    res.json({ keypoints, textsToAnalyze });
   } catch (error) {
     console.log('No se pudo procesar el documento: ', error);
     res.status(500).json({ message: 'No se pudo procesar el documento' });

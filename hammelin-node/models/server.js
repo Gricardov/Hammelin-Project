@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { processDocumentRoutes, worksRoutes, reportsRoutes } = require("../routes");
+const { processDocumentRoutes, worksRoutes, reportsRoutes,questionsRoutes } = require("../routes");
 const { testConnectionDB } = require('../database/pool');
 require('custom-env').env();
 
@@ -11,7 +11,8 @@ class Server {
         this.apiPaths = {
             processDocument: '/api/process-document',
             works: '/api/works',
-            reports: '/api/reports'
+            reports: '/api/reports',
+            questions: '/api/questions'
         };
 
         // Middlewares
@@ -54,6 +55,7 @@ class Server {
         this.app.use(this.apiPaths.processDocument, processDocumentRoutes);
         this.app.use(this.apiPaths.works, worksRoutes);
         this.app.use(this.apiPaths.reports, reportsRoutes);
+        this.app.use(this.apiPaths.questions, questionsRoutes);
     }
 
     listen() {
