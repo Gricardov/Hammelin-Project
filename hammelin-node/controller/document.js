@@ -1,4 +1,4 @@
-const { extractKeypointsFromText, getPdfDataFromUrl, getContractsFromReleases } = require('../utils/functions');
+const { extractKeypointsFromText, getPdfDataFromUrl, getContractsFromReleases, getTextFromPdfBufferOcr } = require('../utils/functions');
 const { default: axios } = require('axios');
 const OpenAI = require('openai');
 require('custom-env').env();
@@ -41,7 +41,7 @@ const processDocument = async (req, res) => {
     console.log('urlsToDownload', urlsToDownload);
     const pdfsData = await Promise.all(urlsToDownload.map(url => getPdfDataFromUrl(url)));
 
-    textsToAnalyze = pdfsData.map(pdf => pdf.text.slice(0, 50000).replace(/\n/g, " ").trim());
+    textsToAnalyze = pdfsData.map(({ pdfData }) => pdfData.text.slice(0, 50000).replace(/\n/g, " ").trim());
 
     console.log('textsToAnalyze', textsToAnalyze);
 
@@ -49,6 +49,9 @@ const processDocument = async (req, res) => {
     const isValid = textsToAnalyze.filter(t => t.trim()).length > 0;
 
     if (!isValid) {
+      console.log('Leyendo OCR...');
+      getTextFromPdfBufferOcr(pdfsData.map(({ buffer }) => buffer));
+
       return res.json({ keypoints: {} });
     }
 

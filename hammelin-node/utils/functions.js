@@ -2,6 +2,7 @@ const QRCode = require('qrcode');
 const stream = require('stream');
 const moment = require('moment');
 const FileType = require('file-type');
+const pdf2img = require('pdf-img-convert');
 const PdfStringfy = require('pdf-stringfy');
 const { default: axios } = require('axios');
 require("moment/locale/es");
@@ -262,7 +263,24 @@ const getPdfDataFromBuffer = async (buffer) => {
 const getPdfDataFromUrl = async (docUrl) => {
     const buffer = await getFileBuffer(docUrl);
     const pdfData = await getPdfDataFromBuffer(buffer);
-    return pdfData;
+    return { pdfData, buffer };
+}
+
+const getTextFromPdfBufferOcr = async (bufferPdfArray, maxPagesPerPdf = 20) => {
+    const imagesFromPdfs = await Promise.all(bufferPdfArray.map(buffer => pdf2img.convert(buffer)));
+    console.log('imagesFromPdfs', imagesFromPdfs);
+    imagesFromPdfs.forEach(async pdfImgs => {
+        await Promise.all(pdfImgs.slice(0, maxPagesPerPdf).map((pdfImg) => {
+            ReadText('./image.png').then(text => {
+                console.log(text);
+            })
+        }))
+    });
+
+    /*const ret = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
+    console.log(ret.data.text);
+    await worker.terminate();*/
+
 }
 
 const getContractsFromReleases = (releases) => {
@@ -296,5 +314,6 @@ module.exports = {
     extractBussinessDataFromInstagram,
     extractKeypointsFromText,
     getPdfDataFromUrl,
-    getContractsFromReleases
+    getContractsFromReleases,
+    getTextFromPdfBufferOcr
 }

@@ -1,5 +1,3 @@
-const { extractKeypointsFromText, getPdfDataFromUrl, getContractsFromReleases } = require('../utils/functions');
-const { default: axios } = require('axios');
 const OpenAI = require('openai');
 require('custom-env').env();
 
