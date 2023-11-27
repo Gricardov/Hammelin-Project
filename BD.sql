@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS obras (
     licitacion_val DOUBLE NOT NULL,
     licitacion_mon VARCHAR(50) NOT NULL,
     docs_json JSON NOT NULL,
+    porc_satis_obra DOUBLE NULL DEFAULT NULL,
+    num_repor INT NULL DEFAULT 0,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -33,7 +35,7 @@ CREATE TABLE IF NOT EXISTS reportes (
     telefono VARCHAR(15),
     correo VARCHAR(255),
     observacion VARCHAR(500),
-    satisfaccion_porc INT NOT NULL,
+    satisfaccion_porc DOUBLE NOT NULL,
     docs_json JSON,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -55,20 +57,17 @@ CREATE TABLE IF NOT EXISTS consulta_personas (
     fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO consulta_personas VALUES (DEFAULT, 'Mila', 'Luna', 'SURCO', 'LIMA', 'LIMA', '999999999', TRUE, DEFAULT, DEFAULT);
-SELECT*FROM consulta_personas;
-delete from consulta_personas where id= 1;
--- ---------------------------
+-- 
 
 -- Testear conexión
-DROP PROCEDURE IF EXISTS USP_TEST_CONNECTION;
 DELIMITER //
-CREATE PROCEDURE USP_TEST_CONNECTION ()
+CREATE PROCEDURE test_connection ()
 BEGIN
 	SELECT 1 + 1 AS solution;
 END; //
 DELIMITER ;
 
+-- Actualizar o registrar obras en BD
 DELIMITER //
 CREATE PROCEDURE actualizar_registrar_obras(obras JSON)
 BEGIN
@@ -114,7 +113,7 @@ BEGIN
         
         IF (NOT(EXISTS(SELECT id_obra FROM obras WHERE id_obra = V_ID_OBRA))) THEN
 			BEGIN
-				INSERT INTO obras VALUES (V_ID_OBRA, V_OCID_OBRA, V_FECHA_OBRA, V_ENT_OBRA, V_DES_OBRA, V_LIC_ID_OBRA, V_LIC_DES_OBRA, V_LIC_VAL_OBRA, V_LIC_MON_OBRA, V_LIC_DOCS_OBRA);
+				INSERT INTO obras VALUES (V_ID_OBRA, V_OCID_OBRA, V_FECHA_OBRA, V_ENT_OBRA, V_DES_OBRA, V_LIC_ID_OBRA, V_LIC_DES_OBRA, V_LIC_VAL_OBRA, V_LIC_MON_OBRA, V_LIC_DOCS_OBRA, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
             END;
 		END IF;
 
@@ -126,16 +125,74 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Obtener obras desde BD
+DELIMITER //
+CREATE PROCEDURE obtener_obras()
+BEGIN
+	SELECT id_obra, ocid_obra, fecha, entidad, descripcion, licitacion_id, licitacion_des, licitacion_val, licitacion_mon, docs_json, porc_satis_obra, num_repor FROM obras ORDER BY porc_satis_obra DESC, num_repor DESC;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE obtener_mejores_obras()
+BEGIN
+	SELECT id_obra, ocid_obra, fecha, entidad, descripcion, licitacion_id, licitacion_des, licitacion_val, licitacion_mon, docs_json, porc_satis_obra, num_repor FROM obras;
+END //
+DELIMITER ;
+
+-- Se activa cuando hay un reporte
+DELIMITER //
+CREATE TRIGGER tr_actualizar_porcentaje_satisfaccion_obra
+AFTER INSERT
+   ON reportes FOR EACH ROW
+BEGIN
+	DECLARE json_data JSON;
+
+    SET json_data = fn_obtener_porc_satisfaccion_obra(NEW.id_obra);
+	UPDATE obras SET porc_satis_obra = JSON_EXTRACT(json_data, '$.porcSatis'), num_repor = JSON_EXTRACT(json_data, '$.num_reg') WHERE id_obra = NEW.id_obra;
+END; //
+DELIMITER ;
+
+-- Función para obtener el % de satisfacción con la obra
+DELIMITER //
+CREATE FUNCTION fn_obtener_porc_satisfaccion_obra(p_id_obra VARCHAR(255)) RETURNS JSON DETERMINISTIC
+BEGIN
+  DECLARE porcentaje DOUBLE;
+  DECLARE suma_satis DOUBLE;
+  DECLARE num_reg INT;
+  
+  SET num_reg = (SELECT COUNT(id) FROM reportes WHERE id_obra = p_id_obra);
+  SET suma_satis = (SELECT SUM(satisfaccion_porc) FROM reportes where id_obra = p_id_obra);
+  RETURN JSON_OBJECT('porcSatis', (suma_satis / num_reg), 'num_reg', num_reg);
+END //
+DELIMITER ;
+
+
+
+
+
+--
+INSERT INTO reportes values (DEFAULT, 'ocds-dgv273-seacev3-2023-1197-2-2023-11-26T08:34:41.386121-05:00', 'Mila', 'Luna', '987654321', 'milaluna@gmail.com', 'No construyeron', 10, '{}', DEFAULT, DEFAULT);
+INSERT INTO reportes values (DEFAULT, 'ocds-dgv273-seacev3-2023-1197-2-2023-11-26T08:34:41.386121-05:00', 'Alyoh', 'Mascarita', '987654321', 'milaluna@gmail.com', 'No construyeron', 50, '{}', DEFAULT, DEFAULT);
+
+select*from reportes;
+select*from obras;
+
+--
+
 DELIMITER //
 CREATE PROCEDURE registrar_reporte(
-    IN r_telefono VARCHAR(20),
+	IN r_id_obra VARCHAR(255),
+    IN r_nombres VARCHAR(255),
+    IN r_apellidos VARCHAR(255),
+    IN r_telefono VARCHAR(15),
     IN r_correo VARCHAR(255),
-    IN r_observacion TEXT,
+    IN r_observacion VARCHAR(500),
+	IN r_satisfaccion_porc DOUBLE, 
     IN r_documentos JSON
 )
 BEGIN
-    INSERT INTO reportes (nombres_apellidos, telefono, correo, observacion, documentos)
-    VALUES (r_nombres, r_apellidos, r_telefono, r_correo, r_observacion, r_documentos);
+	INSERT INTO reportes values (DEFAULT, r_id_obra, r_nombres, r_apellidos, r_telefono, r_correo, r_observacion, r_satisfaccion_porc, r_documentos, DEFAULT, DEFAULT);
 END //
 DELIMITER ;
 
@@ -252,3 +309,14 @@ BEGIN
     SELECT COUNT(*) INTO c_cantidad FROM consulta;
 END //
 DELIMITER ;
+
+-- -----------
+drop table obras;
+SET SQL_SAFE_UPDATES = 0;
+delete from obras where entidad != '';
+select*from obras;
+select count(*) from obras;
+INSERT INTO consulta_personas VALUES (DEFAULT, 'Mila', 'Luna', 'SURCO', 'LIMA', 'LIMA', '999999999', TRUE, DEFAULT, DEFAULT);
+SELECT*FROM consulta_personas;
+delete from consulta_personas where id= 1;
+-- ---------------------------

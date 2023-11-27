@@ -42,16 +42,11 @@
 
         En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable:
 
-        hia-aca: ¿Qué acabados se necesitarán? Dámelo en una tabla
         hia-pro: ¿En qué provincia será la obra?
         hia-dis: ¿En qué distrito será la obra?
         hia-reg: ¿En qué región será la obra?
         hia-con: ¿Qué debe adjuntar el contratista a su solicitud?
 `}, {"role": "assistant", "content": `
-<hia-aca>
-Cocina, Baños, Losa recreativa, Obras
-"Muros (Tarrajeados y pintado látex color blanco- muros interiores), Pisos (Enchape de porcelanato)", "Muros (Tarrajeados y pintado látex color blanco- muros interiores)", "PATIOS / LOSA (Concreto frotachado f’c 175 Kg/cm2 con juntas y bruñas)"
-</hia-aca>
 <hia-pro>LIMA</hia-pro>
 <hia-dis>ATE</hia-dis>
 <hia-reg>LIMA</hia-reg>
@@ -242,11 +237,6 @@ Cocina, Baños, Losa recreativa, Obras
         hia-des: ¿Dónde serán evacuadas las aguas del desague?
         hia-tub: ¿Cuál será el mínimo tamaño de tubería para la conexión del predio?
 `}, {"role": "assistant", "content": `
-<hia-car>
-Cargo, Profesion, Experiencia
-"Residente de obra", "Ingeniero civil / Arquitecto", "5 años de experiencia como residente, supervisor, jefe de Supervision de obras, residente de obra, ingeniero Residente de Obra, inspector de obras en obras iguales y/o similares al objeto de la convocatoria, en obras públicas y/o privadas; u otros cargos similares a través de los cuales se pueda acreditar su experiencia."
-"Ingeniero y/o Arquitecto", "Ingeniero civil / Arquitecto", "3 años de experiencia como residente, supervisor, jefe de supervisión de obras, residente de obra, ingeniero residente de obra o inspector de obras en obras iguales y/o similares al objeto de la convocatoria; ya sea en obras públicas y/o privadas que se computan desde la colegiatura; u otros cargos a través de los cuales se pueda acreditar su experiencia."
-</hia-car>
 <hia-ie>NO SE MENCIONA</hia-ie>
 <hia-prov>LIMA</hia-prov>
 <hia-dis>SURCO</hia-dis>
@@ -276,11 +266,6 @@ Cargo, Profesion, Experiencia
         hia-rep: ¿Quién deberá pagar reparación civil al Estado en caso de retraso?
         hia-tub: ¿Cuánto es el pago que se realizará por retraso diario?
 `}, {"role": "assistant", "content": `
-<hia-car>
-Cargo, Profesion, Experiencia
-"Residente de obra", "Ingeniero civil / Arquitecto", "5 años de experiencia como residente, supervisor, jefe de Supervision de obras, residente de obra, ingeniero Residente de Obra, inspector de obras en obras iguales y/o similares al objeto de la convocatoria, en obras públicas y/o privadas; u otros cargos similares a través de los cuales se pueda acreditar su experiencia."
-"Ingeniero y/o Arquitecto", "Ingeniero civil / Arquitecto", "3 años de experiencia como residente, supervisor, jefe de supervisión de obras, residente de obra, ingeniero residente de obra o inspector de obras en obras iguales y/o similares al objeto de la convocatoria; ya sea en obras públicas y/o privadas que se computan desde la colegiatura; u otros cargos a través de los cuales se pueda acreditar su experiencia."
-</hia-car>
 <hia-ie>Nuestra señora del carmen</hia-ie>
 <hia-prov>LA LIBERTAD</hia-prov>
 <hia-dis>CHAMAS</hia-dis>
@@ -290,3 +275,327 @@ Cargo, Profesion, Experiencia
 <hia-rep>El contratista de la obra</hia-rep>
 <hia-tub>S/. 1,400,000</hia-tub>
 `}]}
+
+
+
+
+
+
+{"messages": [{"role": "system", "content": "Eres un gran analizador de textos"}, {"role": "user", "content": "
+        Texto a analizar:
+		
+		a) FINALIDAD PÚBLICA
+                La Municipalidad Distrital de Cochabamba, de acuerdo a su presupuesto participativo
+				para el año 2029, ha visto por conveniente apoyar a los Centros Poblados y
+				localidades en sus ejes de desarrollo; y está priorizando infraestructuras como es
+				correspondiente al sector Agrícola, apoyará con el financiamiento de los estudios del
+				proyecto 'MEJORAMIENTO DEL SERVICIO DE AGUA PARA RIEGO DEL CANAL EL
+				PUEBLO DESDE CORRAL HASTA COCHABAMBA DEL DISTRITO DE COCHABAMBA,
+				PROVINCIA DE HUARAZ, DEPARTAMENTO DE ANCASH' II ETAPA; la ejecución de
+				la Obra será financiada por la Municipalidad Distrital de Cochabamba, con el único
+				propósito de hacer un mejor uso de recurso hídrico y de esta manera contribuir con el
+				desarrollo del Distrito de Cochabamba.
+        b) INFORMACIÓN DEL PROYECTO
+            Descripción:
+                'MEJORAMIENTO DEL SERVICIO DE AGUA PARA RIEGO DEL CANAL EL PUEBLO DESDE CORRAL HASTA COCHABAMBA DEL 
+				DISTRITO DE COCHABAMBA, PROVINCIA DE HUARAZ, DEPARTAMENTO DE ANCASH'- II ETAPA, CUI N° 2435186'
+            CUI:
+                2233960
+        c) UBICACIÓN Y GEORREFERENCIACIÓN
+            Lugar de ejecución de la obra:
+                DISTRITO:COCHABAMBA - PROVINCIA: HUARAZ - REGIÓN: ANCASH
+        d) ENTREGA DEL TERRENO
+            Entrega de terreno:
+                SE HARA LA ENTREGA DEL TERRENO CORRESPONDIENTE A LA OBRA.
+        e) MODALIDAD
+            La modalidad de ejecución propuesta en el presente proyecto determinado 'MEJORAMIENTO DEL SERVICIO DE AGUA 
+			PARA RIEGO DEL CANAL EL PUEBLO DESDE CORRAL HASTA COCHABAMBA DEL DISTRITO DE COCHABAMBA, PROVINCIA DE HUARAZ, 
+			DEPARTAMENTO DE ANCASH'- II ETAPA, CUI N° 2435186, es por término de Contrata y por Recursos Ordinarios manejados 
+			por parte de la entidad y bajo el Reglamento Nacional de Construcción y OSCE, y de acuerdo al Reglamento y Ley de Contrataciones con el Estado.
+
+        f) PLAZO DE EJECUCION DE OBRA
+			Se determinado un plazo de ejecución del proyecto: 'MEJORAMIENTO DEL SERVICIO DE AGUA PARA RIEGO DEL CANAL EL PUEBLO DESDE 
+			CORRAL HASTA COCHABAMBA DEL DISTRITO DE COCHABAMBA, PROVINCIA DE HUARAZ, DEPARTAMENTO DE ANCASH'- II ETAPA, CUI N° 2435186, 
+			se estima en 120 días calendarios (4 meses), de acuerdo al calendario de avance de obra que se adjunta en el expediente.
+
+        En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable:
+
+        hia-pro: ¿En qué provincia será la obra?
+        hia-dis: ¿En qué distrito será la obra?
+        hia-reg: ¿En qué región será la obra?
+        hia-mod: ¿Cual es la modalidad de ejecución de la obra?
+"}, {"role": "assistant", "content": "
+<hia-pro>HUARAZ</hia-pro>
+<hia-dis>COCHABAMBA</hia-dis>
+<hia-reg>ANCASH</hia-reg>
+<hia-mod>Por término de Contrata y por recursos ordinarios</hia-mod>
+"}]}
+
+
+{"messages": [{"role": "system", "content": "Eres un gran analizador de textos"}, {"role": "user", "content": "
+        Texto a analizar:
+		
+		a) FINALIDAD PÚBLICA
+                Aprueba expediente técnico del proyecto: 'MEJORAMIENTO DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES 
+				EN LOCAL MUNICIPAL DE CENTRO POBLADO SITABAL DISTRITO DE CHUGAY DE LA PROVINCIA DE SÁNCHEZ CARRIÓN DEL DEPARTAMENTO 
+				DE LA LIBERTAD' con código único de inversión N° 2601051, con un presupuesto total de obra que asciende a S/. 1'052,559.43 
+				(UN MILLÓN CINCUENTA Y DOS MIL QUINIENTOS CINCUENTA Y NUEVE CON 43/100 SOLES)
+        b) INFORMACIÓN DEL PROYECTO
+            Descripción:
+               "MEJORAMIENTO DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LOCAL MUNICIPAL DE 
+			   CENTRO POBLADO SITABAL DISTRITO DE CHUGAY DE LA PROVINCIA DE SÁNCHEZ CARRIÓN DEL DEPARTAMENTO DE LA LIBERTAD"
+            CUI:
+                2233960
+        c) UBICACIÓN Y GEORREFERENCIACIÓN
+            Lugar de ejecución de la obra:
+                DISTRITO:CHUGAY - PROVINCIA: SÁNCHEZ CARRIÓN - REGIÓN: LA LIBERTAD
+
+        En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable:
+
+        hia-pry: ¿Cómo se llama el proyecto?
+        hia-pro: ¿En qué provincia será la obra?
+        hia-dis: ¿En qué distrito será la obra?
+        hia-reg: ¿En qué región será la obra?
+"}, {"role": "assistant", "content": "
+<hia-pry>MEJORAMIENTO DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LOCAL MUNICIPAL DE CENTRO POBLADO SITABAL DISTRITO DE CHUGAY DE LA PROVINCIA DE SÁNCHEZ CARRIÓN DEL DEPARTAMENTO DE LA LIBERTAD</hia-pry>
+<hia-pro>SÁNCHEZ CARRIÓN</hia-pro>
+<hia-dis>CHUGAY</hia-dis>
+<hia-reg>LA LIBERTAD</hia-reg>
+"}]}
+
+{"messages": [{"role": "system", "content": "Eres un gran analizador de textos"}, {"role": "user", "content": "
+        Texto a analizar:
+		
+		a) FINALIDAD PÚBLICA
+                La Municipalidad Distrital de Cochabamba, de acuerdo a su presupuesto participativo
+				para el año 2029, ha visto por conveniente apoyar a los Centros Poblados y
+				localidades en sus ejes de desarrollo; y está priorizando infraestructuras como es
+				correspondiente al sector Agrícola, apoyará con el financiamiento de los estudios del
+				proyecto 'MEJORAMIENTO DEL SERVICIO DE AGUA PARA RIEGO DEL CANAL EL
+				PUEBLO DESDE CORRAL HASTA COCHABAMBA DEL DISTRITO DE COCHABAMBA,
+				PROVINCIA DE HUARAZ, DEPARTAMENTO DE ANCASH' II ETAPA; la ejecución de
+				la Obra será financiada por la Municipalidad Distrital de Cochabamba, con el único
+				propósito de hacer un mejor uso de recurso hídrico y de esta manera contribuir con el
+				desarrollo del Distrito de Cochabamba.
+        b) INFORMACIÓN DEL PROYECTO
+            Descripción:
+                'MEJORAMIENTO DEL SERVICIO DE AGUA PARA RIEGO DEL CANAL EL PUEBLO DESDE CORRAL HASTA COCHABAMBA DEL 
+				DISTRITO DE COCHABAMBA, PROVINCIA DE HUARAZ, DEPARTAMENTO DE ANCASH'- II ETAPA, CUI N° 2435186
+            CUI:
+                2233960
+        c) UBICACIÓN Y GEORREFERENCIACIÓN
+            Lugar de ejecución de la obra:
+                DISTRITO:COCHABAMBA - PROVINCIA: HUARAZ - REGIÓN: ANCASH
+        d) ENTREGA DEL TERRENO
+            Entrega de terreno:
+                SE HARA LA ENTREGA DEL TERRENO CORRESPONDIENTE A LA OBRA.
+        e) MODALIDAD
+            La modalidad de ejecución propuesta en el presente proyecto determinado 'MEJORAMIENTO DEL SERVICIO DE AGUA 
+			PARA RIEGO DEL CANAL EL PUEBLO DESDE CORRAL HASTA COCHABAMBA DEL DISTRITO DE COCHABAMBA, PROVINCIA DE HUARAZ, 
+			DEPARTAMENTO DE ANCASH'- II ETAPA, CUI N° 2435186, es por término de Contrata y por Recursos Ordinarios manejados 
+			por parte de la entidad y bajo el Reglamento Nacional de Construcción y OSCE, y de acuerdo al Reglamento y Ley de Contrataciones con el Estado.
+
+        f) PLAZO DE EJECUCION DE OBRA
+			Se determinado un plazo de ejecución del proyecto: 'MEJORAMIENTO DEL SERVICIO DE AGUA PARA RIEGO DEL CANAL EL PUEBLO DESDE 
+			CORRAL HASTA COCHABAMBA DEL DISTRITO DE COCHABAMBA, PROVINCIA DE HUARAZ, DEPARTAMENTO DE ANCASH'- II ETAPA, CUI N° 2435186, 
+			se estima en 120 días calendarios (4 meses), de acuerdo al calendario de avance de obra que se adjunta en el expediente.
+
+        En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable:
+
+        hia-pro: ¿En qué provincia será la obra?
+        hia-dis: ¿En qué distrito será la obra?
+        hia-reg: ¿En qué región será la obra?
+        hia-mod: ¿Cual es la modalidad de la Obra?
+"}, {"role": "assistant", "content": "
+<hia-pro>HUARAZ</hia-pro>
+<hia-dis>COCHABAMBA</hia-dis>
+<hia-reg>ANCASH</hia-reg>
+<hia-mod>Es por término de Contrata y por Recursos Ordinarios</hia-mod>
+"}]}
+
+{"messages": [{"role": "system", "content": "Eres un gran analizador de textos"}, {"role": "user", "content": "
+        Texto a analizar:
+		CONVOCATORIA
+			Se realiza a través de su publicación en el SEACE de conformidad con lo señalado en el
+			artículo 54 del Reglamento, en la fecha señalada en el calendario del procedimiento de
+			selección, debiendo adjuntar las bases. 
+		GARANTÍA POR ADELANTO
+			En caso se haya previsto en la sección específica de las bases la entrega de adelantos,
+			el contratista debe presentar una garantía emitida por idéntico monto conforme a lo
+			estipulado en el artículo 153 del Reglamento.
+		OBJETO DE LA CONVOCATORIA
+			El presente procedimiento de selección tiene por objeto la contratación de la ejecución de la
+			obra IOARR: “CONSTRUCCION DE RED DE ALCANTARILLADO Y CONEXIONES
+			DOMICILIARIAS; EN EL(LA) SISTEMA DE DESAGÜE DEL CASERÍO DE AURA ALTA,
+			DISTRITO DE YUNGAY, PROVINCIA YUNGAY, DEPARTAMENTO ANCASH”, con Código
+			Único de Inversión N° 2538110.
+		VALOR REFERENCIAL4
+			El valor referencial asciende a S/ 458,898.20 (Cuatrocientos Cincuenta y Ocho Mil
+			Ochocientos Noventa y Ocho con 20/100 Soles), incluidos los impuestos de Ley y cualquier
+			otro concepto que incida en el costo total de la ejecución de la obra. El valor referencial ha sido
+			calculado al mes de setiembre de 2023.
+		PLAZO DE EJECUCIÓN DE LA OBRA
+			El plazo de ejecución de la obra materia de la presente convocatoria, es de Noventa (90) días
+			calendarios, en concordancia con lo establecido en el expediente de contratación y en el
+			expediente técnico de obra.
+
+        En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable:
+
+        hia-prov: ¿En qué provincia será la obra?
+        hia-dis: ¿En qué distrito será la obra?
+        hia-reg: ¿En qué región será la obra?
+        hia-pai: ¿En qué país será la obra?
+        hia-cos: ¿Cual es el costo de la obra?
+        hia-pla: ¿Cual es el plazo de ejecucion?
+"}, {"role": "assistant", "content": "
+<hia-prov>YUNGAY</hia-prov>
+<hia-dis>YUNGAY</hia-dis>
+<hia-reg>ANCASH</hia-reg>
+<hia-pai>NO SE MENCIONA</hia-pai>
+<hia-cos>S/ 458,898.20</hia-cos>
+<hia-pla>90 dias calendarios</hia-pla>
+"}]}
+
+{"messages": [{"role": "system", "content": "Eres un gran analizador de textos"}, {"role": "user", "content": "
+        Texto a analizar:
+
+        a) VALOR REFERENCIAL4
+			El valor referencial asciende a UN MILLÓN NOVECIENTOS CUARENTA Y DOS MIL
+			CUATROCIENTOS SESENTA Y SEIS CON 00/100 SOLES (S/ 1,942,466.00), incluidos los
+			impuestos de Ley y cualquier otro concepto que incida en el costo total de la ejecución de la obra.
+			El valor referencial ha sido calculado al mes de MARZO DE 2023.
+
+        b) INFORMACIÓN DEL PROYECTO
+            Descripción:
+                "MEJORAMIENTO DEL SERVICIO DE RECREACIÓN ACTIVA EN EL SECTOR ALAN GARCÍA
+				DEL DISTRITO DE PARACAS - PROVINCIA DE PISCO - DEPARTAMENTO DE ICA - CUI N°
+				2561462"
+        c) UBICACIÓN Y GEORREFERENCIACIÓN
+            Lugar de ejecución de la obra:
+                DISTRITO:PARACAS - PROVINCIA: PISCO - REGIÓN: ICA
+				
+        d) VALORIZACIONES
+				El periodo de valorización será MENSUAL.
+				
+        e) ADELANTOS
+				La Entidad no ha previsto la entrega de adelantos.
+
+        f) PLAZO PARA EL PAGO DEL SALDO DE LA LIQUIDACIÓN DEL CONTRATO DE OBRA
+				La Entidad o el contratista, según corresponda, deben efectuar el pago del monto
+				correspondiente al saldo de la liquidación del contrato de obra, en el plazo de 30 días calendario,
+				computados desde el día siguiente del consentimiento de la liquidación. Para tal efecto, la parte
+				que solicita el pago debe presentar el comprobante de pago respectivo.
+		g) PLAZO DE EJECUCIÓN DE LA OBRA
+				El plazo de ejecución de la obra materia de la presente convocatoria, es CIENTO VEINTE (120)
+				DÍAS CALENDARIO, en concordancia con lo establecido en el expediente de contratación y en
+				el expediente técnico de obra.
+
+
+        En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable:
+
+        hia-pro: ¿En qué provincia será la obra?
+        hia-dis: ¿En qué distrito será la obra?
+        hia-reg: ¿En qué región será la obra?
+        hia-pla: ¿Cual es el plazo de ejecucion de la obra en días?
+"}, {"role": "assistant", "content": "
+<hia-pro>PISCO</hia-pro>
+<hia-dis>PARACAS</hia-dis>
+<hia-reg>ICA</hia-reg>
+<hia-pla>120</hia-pla>
+"}]}
+
+{"messages": [{"role": "system", "content": "Eres un gran analizador de textos"}, {"role": "user", "content": "
+        Texto a analizar:
+		
+		a) CONVOCATORIA
+			Se realiza a través de su publicación en el SEACE de conformidad con lo señalado en el artículo
+			54 del Reglamento, en la fecha señalada en el calendario del procedimiento de selección,
+			debiendo adjuntar las bases. 
+		b) FORMA DE PRESENTACIÓN DE OFERTAS
+			Las ofertas se presentan conforme lo establecido en el artículo 59 y en el artículo 90 del
+			Reglamento.
+			Las declaraciones juradas, formatos o formularios previstos en las bases que conforman la
+			oferta deben estar debidamente firmados por el postor (firma manuscrita o digital, según la Ley
+			Nº 27269, Ley de Firmas y Certificados Digitales2
+			). Los demás documentos deben ser visados
+			por el postor. En el caso de persona jurídica, por su representante legal, apoderado o
+			mandatario designado para dicho fin y, en el caso de persona natural, por este o su apoderado.
+			No se acepta el pegado de la imagen de una firma o visto. Las ofertas se presentan foliadas. 
+		c) OTORGAMIENTO DE LA BUENA PRO
+			Definida la oferta ganadora, el órgano encargado de las contrataciones o comité de selección,
+			según corresponda, otorga la buena pro, mediante su publicación en el SEACE, incluyendo el
+			cuadro comparativo y las actas debidamente motivadas de los resultados de la admisión, no
+			admisión, evaluación, calificación, descalificación, rechazo y el otorgamiento de la buena pro.
+		d) ADELANTOS
+			La Entidad puede establecer la entrega de adelantos directos y adelantos para materiales e
+			insumos, y en el caso de contratos bajo la modalidad llave en mano, para equipamiento y
+			mobiliario, de conformidad con el artículo 180 del Reglamento, siempre que ello haya sido
+			previsto en la sección específica de las bases.
+		e) OBJETO DE LA CONVOCATORIA
+			El presente procedimiento de selección tiene por objeto la contratación de la ejecución de la obra
+			“CREACION DEL SERVICIO DE PRÁCTICA DEPORTIVA Y/O RECREATIVA EN LA PLAZA DE
+			TOROS, DE CENTRO POBLADO CANARIA DISTRITO DE CANARIA DE LA PROVINCIA DE
+			VICTOR FAJARDO DEL DEPARTAMENTO DE AYACUCHO” 2577680
+		f) VALOR REFERENCIAL4
+			El valor referencial asciende a S/. 825,219.76 (Ochocientos veinticinco mil doscientos diecinueve
+			con 76/100 soles) incluidos los impuestos de Ley y cualquier otro concepto que incida en el costo total
+			de la ejecución de la obra. El valor referencial ha sido calculado al mes de NOVIEMBRE 2023
+		e) PLAZO DE EJECUCIÓN DE LA OBRA
+			El plazo de ejecución de la obra materia de la presente convocatoria, es de 120 (ciento veinte)
+			días calendario, en concordancia con lo establecido en el expediente de contratación y en el
+			expediente técnico de obra.
+
+        hia-pro: ¿En qué provincia será la obra?
+        hia-dis: ¿En qué distrito será la obra?
+        hia-reg: ¿En qué región será la obra?
+        hia-pai: ¿En qué país será la obra?
+        hia-cos: ¿Cual es el plazo de ejecucion de la obra?
+		hia-con: ¿COmo se realizo la convocatoria?
+"}, {"role": "assistant", "content": "
+<hia-pro>VICTOR FAJARDO</hia-pro>
+<hia-dis>CANARIA</hia-dis>
+<hia-reg>AYACUCHO</hia-reg>
+<hia-pai>NO SE MENCIONA</hia-pai>
+<hia-cos>120 dias</hia-cos>
+<hia-con>A través de publicación en el SEACE</hia-cos>
+"}]}
+
+{"messages": [{"role": "system", "content": "Eres un gran analizador de textos"}, {"role": "user", "content": "
+        Texto a analizar:
+
+        OBJETO DE LA CONVOCATORIA
+			El presente procedimiento de selección tiene por objeto la CONTRATACIÓN DEL SALDO DE OBRA: 'MEJORAMIENTO DE LOS 
+			SERVICIOS TURÍSTICOS PÚBLICOS DE LA RUTA TURÍSTICA DEL VALLE DEL COLCA EN EL CASCO URBANO DE LA LOCALIDAD DE CHIVAY - 
+			PROVINCIA DE CAYLLOMA, REGIÓN AREQUIPA' - SALDO DE OBRA DE RESTAURACIÓN E ILUMINACIÓN ARTÍSTICA DEL TEMPLO DE NUESTRA 
+			SEÑORA DE LA ASUNCIÓN DE CHIVAY, CUI: 2235746.
+		
+		VALOR REFERENCIAL*
+			El valor referencial asciende a S/. 3 363,494.13 (Tres Millones Trescientos Sesenta y Tres Mil Cuatrocientos Noventa y 
+			Cuatro con 13/100 soles), incluidos los impuestos de Ley y cualquier otro concepto que incida en el costo total de la 
+			ejecución de la obra. El valor referencial ha sido calculado al mes de octubre de 2023.
+
+		SISTEMA DE CONTRATACIÓN
+			El presente procedimiento se rige por el sistema de A PRECIOS UNITARIOS, de acuerdo con lo establecido en el expediente de contratación respectivo.
+		MODALIDAD DE EJECUCIÓN
+		NO CORRESPONDE
+		ALCANCES DEL REQUERIMIENTO
+		El alcance de la ejecución de la obra está definido en el Capítulo III de la presente sección de las bases.
+		PLAZO DE EJECUCIÓN DE LA OBRA
+		El plazo de ejecución de la obra materia de la presente convocatoria, es de doscientos diez (210) días calendario, en concordancia con lo establecido en el expediente de contratación y en el expediente técnico de obra.
+			
+        En base al texto, respóndeme las siguientes preguntas en un lenguaje amigable:
+
+        hia-prov: ¿En qué provincia será la obra?
+        hia-dis: ¿En qué distrito será la obra?
+        hia-reg: ¿En qué región será la obra?
+        hia-pai: ¿En qué país será la obra?
+        hia-cos: ¿A cuánto asciende el presupuesto de referencia?
+		hia-pla: ¿Cual es el plazo de ejecucion de la obra?
+"}, {"role": "assistant", "content": "
+<hia-prov>CAYLLOMA</hia-prov>
+<hia-dis>CHIVAY</hia-dis>
+<hia-reg>AREQUIPA</hia-reg>
+<hia-pai>NO SE MENCIONA</hia-pai>
+<hia-cos>S/. 3 363,494.13</hia-cos>
+<hia-pla>210 dias calendarios</hia-pla>
+"}]}
