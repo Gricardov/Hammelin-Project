@@ -3,6 +3,7 @@ const stream = require('stream');
 const moment = require('moment');
 const FileType = require('file-type');
 const pdf2img = require('pdf-img-convert');
+const ReadText = require('text-from-image')
 const PdfStringfy = require('pdf-stringfy');
 const { default: axios } = require('axios');
 require("moment/locale/es");
@@ -270,11 +271,8 @@ const getTextFromPdfBufferOcr = async (bufferPdfArray, maxPagesPerPdf = 20) => {
     const imagesFromPdfs = await Promise.all(bufferPdfArray.map(buffer => pdf2img.convert(buffer)));
     console.log('imagesFromPdfs', imagesFromPdfs);
     imagesFromPdfs.forEach(async pdfImgs => {
-        await Promise.all(pdfImgs.slice(0, maxPagesPerPdf).map((pdfImg) => {
-            ReadText('./image.png').then(text => {
-                console.log(text);
-            })
-        }))
+        const texts = await Promise.all(pdfImgs.slice(0, maxPagesPerPdf).map((pdfImg) => ReadText(pdfImg)))
+        console.log('texts', texts);
     });
 
     /*const ret = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
