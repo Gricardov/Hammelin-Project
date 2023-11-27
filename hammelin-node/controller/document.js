@@ -1,35 +1,9 @@
-const { extractKeypointsFromText, getFileBuffer, getPdfDataFromUrl, getContractsFromReleases } = require('../utils/functions');
+const { extractKeypointsFromText, getPdfDataFromUrl, getContractsFromReleases } = require('../utils/functions');
 const { default: axios } = require('axios');
 const OpenAI = require('openai');
 require('custom-env').env();
 
 const openai = new OpenAI();
-
-const text = `
-        a) FINALIDAD PÚBLICA
-                Dotar de una adecuada infraestructura bajo las condiciones de seguridad, durabilidad, funcionalidad,
-                estética, y economía, para mejorar la calidad educativa de los usuarios en el tiempo, considerando el
-                "Protocolo Sanitario del Sector Vivienda, Construcción y Saneamiento para el inicio gradual e incremental
-                de las actividades en la Reanudación de Actividades" contenido en la Resolución Ministerial N° 087-2020-
-                VIVIENDA y los "Lineamientos para la Vigilancia, Prevención y Control de la salud de los trabajadores con
-                riesgo de exposición a SARS-CoV-2" aprobados mediante Resolución Ministerial N° 1275- 2021-MINSA.
-        b) INFORMACIÓN DEL PROYECTO
-            Descripción:
-                “Mejoramiento de los Servicios de Educación Primaria
-                de la I.E. Nº 1245 José Carlos Mariátegui, con Código Único de Inversiones N° 2233960”
-            CUI:
-                2233960
-        d) ENTREGA DEL TERRENO
-            Entrega de terreno:
-                SE HARA LA ENTREGA DEL TERRENO CORRESPONDIENTE A LA OBRA.
-        e) ADELANTOS
-            i. ADELANTO DIRECTO
-                El contratista debe solicitar formalmente el Adelanto Directo dentro de los ocho (8) días siguientes a
-                la suscripción del contrato, adjuntando a su solicitud la garantía por adelantos mediante CARTA
-                FIANZA1: o PÓLIZA DE CAUCIÓN y el comprobante de pago correspondiente. La Entidad debe entregar
-                el monto solicitado dentro de los siete (7) días contados a partir del día siguiente de recibida la
-                solicitud del contratista. (Art. 181 Reglamento de la Ley de Contrataciones del Estado).
-                Vencido el plazo para solicitar el adelanto no procede la solicitud.`;
 
 const processDocument = async (req, res) => {
   try {

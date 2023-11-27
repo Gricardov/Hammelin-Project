@@ -167,19 +167,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
-
-
-
---
-INSERT INTO reportes values (DEFAULT, 'ocds-dgv273-seacev3-2023-1197-2-2023-11-26T08:34:41.386121-05:00', 'Mila', 'Luna', '987654321', 'milaluna@gmail.com', 'No construyeron', 10, '{}', DEFAULT, DEFAULT);
-INSERT INTO reportes values (DEFAULT, 'ocds-dgv273-seacev3-2023-1197-2-2023-11-26T08:34:41.386121-05:00', 'Alyoh', 'Mascarita', '987654321', 'milaluna@gmail.com', 'No construyeron', 50, '{}', DEFAULT, DEFAULT);
-
-select*from reportes;
-select*from obras;
-
---
-
 DELIMITER //
 CREATE PROCEDURE registrar_reporte(
 	IN r_id_obra VARCHAR(255),
@@ -195,6 +182,8 @@ BEGIN
 	INSERT INTO reportes values (DEFAULT, r_id_obra, r_nombres, r_apellidos, r_telefono, r_correo, r_observacion, r_satisfaccion_porc, r_documentos, DEFAULT, DEFAULT);
 END //
 DELIMITER ;
+
+-- --------------------
 
 DELIMITER //
 CREATE PROCEDURE registrar_consulta(
