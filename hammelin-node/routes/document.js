@@ -3,6 +3,6 @@ const { processDocument } = require("../controller/document");
 
 const router = Router();
 
-router.get("/", processDocument);
+router.get("/process", processDocument);
 
 module.exports = router;
