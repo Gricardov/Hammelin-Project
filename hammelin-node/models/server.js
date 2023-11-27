@@ -37,6 +37,12 @@ class Server {
         //CORS
         this.app.use(cors());
 
+        // Inside your routes setup, before defining routes
+        this.app.use((req, res, next) => {
+            console.log(`Received ${req.method} request to ${req.originalUrl}`);
+            next();
+        });
+
         // Lectura y parseo del body
         this.app.use(express.json());
 
