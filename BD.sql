@@ -169,14 +169,14 @@ DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE registrar_reporte(
-	IN r_id_obra VARCHAR(255),
-    IN r_nombres VARCHAR(255),
-    IN r_apellidos VARCHAR(255),
-    IN r_telefono VARCHAR(15),
-    IN r_correo VARCHAR(255),
-    IN r_observacion VARCHAR(500),
-	IN r_satisfaccion_porc DOUBLE, 
-    IN r_documentos JSON
+	r_id_obra VARCHAR(255),
+    r_nombres VARCHAR(255),
+    r_apellidos VARCHAR(255),
+    r_telefono VARCHAR(15),
+    r_correo VARCHAR(255),
+    r_observacion VARCHAR(500),
+	r_satisfaccion_porc DOUBLE, 
+    r_documentos JSON
 )
 BEGIN
 	INSERT INTO reportes values (DEFAULT, r_id_obra, r_nombres, r_apellidos, r_telefono, r_correo, r_observacion, r_satisfaccion_porc, r_documentos, DEFAULT, DEFAULT);
@@ -304,6 +304,7 @@ drop table obras;
 SET SQL_SAFE_UPDATES = 0;
 delete from obras where entidad != '';
 select*from obras;
+select*from reportes;
 select count(*) from obras;
 INSERT INTO consulta_personas VALUES (DEFAULT, 'Mila', 'Luna', 'SURCO', 'LIMA', 'LIMA', '999999999', TRUE, DEFAULT, DEFAULT);
 SELECT*FROM consulta_personas;
