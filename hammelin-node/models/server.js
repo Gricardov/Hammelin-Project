@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { processDocumentRoutes, worksRoutes, reportsRoutes,questionsRoutes } = require("../routes");
+const { processDocumentRoutes, worksRoutes, reportsRoutes, questionsRoutes } = require("../routes");
 const { testConnectionDB } = require('../database/pool');
 require('custom-env').env();
 
@@ -36,7 +36,9 @@ class Server {
 
     middlewares() {
         //CORS
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: '*'
+        }));
 
         // Inside your routes setup, before defining routes
         this.app.use((req, res, next) => {
