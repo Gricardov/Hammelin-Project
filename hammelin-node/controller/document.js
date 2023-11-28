@@ -16,7 +16,7 @@ const processDocument = async (req, res) => {
 
     let results = await queryDB('CALL obtener_cache_obra(?)', [id]);
     const cache = results[0][0]?.cache_json;
-    if (cache.length > 0) {
+    if (id && cache.length > 0) {
       console.log('El registro tiene caché...');
       textsToAnalyze = cache;
     } else {
