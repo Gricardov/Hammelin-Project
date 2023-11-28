@@ -5,7 +5,7 @@ SET NAMES utf8mb4;
 SET CHARACTER SET utf8mb4;
 SET CHARACTER_SET_SERVER = utf8mb4;
 SET COLLATION_SERVER = utf8mb4_unicode_ci;
-
+-- drop DATABASE HAMMELIN_DB;
 CREATE DATABASE HAMMELIN_DB;
 
 USE HAMMELIN_DB;
@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS obras (
     docs_json JSON NOT NULL,
     porc_satis_obra DOUBLE NULL DEFAULT NULL,
     num_repor INT NULL DEFAULT 0,
+    cache_json JSON NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -113,7 +114,7 @@ BEGIN
         
         IF (NOT(EXISTS(SELECT id_obra FROM obras WHERE id_obra = V_ID_OBRA))) THEN
 			BEGIN
-				INSERT INTO obras VALUES (V_ID_OBRA, V_OCID_OBRA, V_FECHA_OBRA, V_ENT_OBRA, V_DES_OBRA, V_LIC_ID_OBRA, V_LIC_DES_OBRA, V_LIC_VAL_OBRA, V_LIC_MON_OBRA, V_LIC_DOCS_OBRA, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+				INSERT INTO obras VALUES (V_ID_OBRA, V_OCID_OBRA, V_FECHA_OBRA, V_ENT_OBRA, V_DES_OBRA, V_LIC_ID_OBRA, V_LIC_DES_OBRA, V_LIC_VAL_OBRA, V_LIC_MON_OBRA, V_LIC_DOCS_OBRA, DEFAULT, DEFAULT, '[]', DEFAULT, DEFAULT);
             END;
 		END IF;
 
@@ -137,6 +138,20 @@ DELIMITER //
 CREATE PROCEDURE obtener_mejores_obras()
 BEGIN
 	SELECT id_obra, ocid_obra, fecha, entidad, descripcion, licitacion_id, licitacion_des, licitacion_val, licitacion_mon, docs_json, porc_satis_obra, num_repor FROM obras WHERE porc_satis_obra IS NOT NULL ORDER BY porc_satis_obra DESC, num_repor DESC;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE actualizar_cache_obra(p_id_obra VARCHAR(255), p_cache_json JSON)
+BEGIN
+	UPDATE obras SET cache_json = p_cache_json WHERE id_obra = p_id_obra;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE obtener_cache_obra(p_id_obra VARCHAR(255))
+BEGIN
+	SELECT cache_json FROM obras WHERE id_obra = p_id_obra;
 END //
 DELIMITER ;
 
@@ -185,125 +200,14 @@ DELIMITER ;
 
 -- --------------------
 
-DELIMITER //
-CREATE PROCEDURE registrar_consulta(
-    IN c_nombres VARCHAR(255),
-    IN c_apellidos VARCHAR(255),
-    IN c_distrito VARCHAR(255),
-    IN c_provincia VARCHAR(255),
-    IN c_region VARCHAR(255),
-    IN c_telefono VARCHAR(20),
-    IN c_autorizacion VARCHAR(50)
-)
-BEGIN
-    INSERT INTO consulta (nombres, apellidos, distrito, provincia, region, telefono, autorizacion)
-    VALUES (c_nombres, c_apellidos, c_distrito, c_provincia, c_region, c_telefono, c_autorizacion);
-END //
-DELIMITER ;
 
-DELIMITER //
-CREATE PROCEDURE obtener_consulta_por_id(
-    IN c_id INT,
-    OUT c_nombres VARCHAR(255),
-    OUT c_apellidos VARCHAR(255),
-    OUT c_distrito VARCHAR(255),
-    OUT c_provincia VARCHAR(255),
-    OUT c_region VARCHAR(255),
-    OUT p_telefono VARCHAR(20),
-    OUT c_autorizacion VARCHAR(50)
-)
-BEGIN
-    SELECT
-        nombres,
-        apellidos,
-        distrito,
-        provincia,
-        region,
-        telefono,
-        autorizacion
-    INTO
-        c_nombres,
-        c_apellidos,
-        c_distrito,
-        c_provincia,
-        c_region,
-        c_telefono,
-        c_autorizacion
-    FROM
-        consulta
-    WHERE
-        id = c_id;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE actualizar_consulta_por_id(
-    IN c_id INT,
-    IN c_nombres VARCHAR(255),
-    IN c_apellidos VARCHAR(255),
-    IN c_distrito VARCHAR(255),
-    IN c_provincia VARCHAR(255),
-    IN c_region VARCHAR(255),
-    IN p_telefono VARCHAR(20),
-    IN c_autorizacion VARCHAR(50)
-)
-BEGIN
-    UPDATE consulta
-    SET
-        nombres = c_nombres,
-        apellidos = c_apellidos,
-        distrito = c_distrito,
-        provincia = c_provincia,
-        region = c_region,
-        telefono = c_telefono,
-        autorizacion = c_autorizacion
-    WHERE
-        id = c_id;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE eliminar_consulta_por_id(
-    IN c_id INT
-)
-BEGIN
-    DELETE FROM consulta
-    WHERE
-        id = c_id;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE obtener_todas_las_consultas()
-BEGIN
-    SELECT * FROM consulta;
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE buscar_consultas_por_nombres(
-    IN c_nombres VARCHAR(255)
-)
-BEGIN
-    SELECT * FROM consulta
-    WHERE nombres LIKE CONCAT('%', c_nombres, '%');
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE contar_consultas(
-    OUT c_cantidad INT
-)
-BEGIN
-    SELECT COUNT(*) INTO c_cantidad FROM consulta;
-END //
-DELIMITER ;
 
 -- -----------
 drop table obras;
 SET SQL_SAFE_UPDATES = 0;
 delete from obras where entidad != '';
 select*from obras;
+-- UPDATE obras set cache_json = '[]' where id_obra = 'ocds-dgv273-seacev3-2023-1197-2-2023-11-27T08:21:09.023735-05:00';
 select*from reportes;
 select count(*) from obras;
 INSERT INTO consulta_personas VALUES (DEFAULT, 'Mila', 'Luna', 'SURCO', 'LIMA', 'LIMA', '999999999', TRUE, DEFAULT, DEFAULT);
