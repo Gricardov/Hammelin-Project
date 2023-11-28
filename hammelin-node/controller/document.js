@@ -15,8 +15,8 @@ const processDocument = async (req, res) => {
     let textsToAnalyze = [];
 
     let results = await queryDB('CALL obtener_cache_obra(?)', [id]);
-    const cache = results[0][0]?.cache_json;
-    if (id && cache.length > 0) {
+    const cache = results?.[0]?.[0]?.cache_json;
+    if (id && cache && cache.length > 0) {
       console.log('El registro tiene caché...');
       textsToAnalyze = cache;
     } else {
@@ -120,7 +120,7 @@ const processDocument = async (req, res) => {
     console.log('IA response', response);
 
     // Actualiza el caché si es que no existía
-    if (cache.length === 0) {
+    if (!cache || cache?.length === 0) {
       console.log('Guardando caché...');
       await queryDB('CALL actualizar_cache_obra(?,?)', [id, JSON.stringify(textsToAnalyze)]);
     }
