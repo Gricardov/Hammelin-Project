@@ -1,58 +1,69 @@
+const OpenAI = require('openai');
 const { extractKeypointsFromText, getPdfDataFromUrl, getContractsFromReleases, getTextFromPdfBufferOcr } = require('../utils/functions');
 const { default: axios } = require('axios');
-const OpenAI = require('openai');
+const { queryDB } = require('../database/pool');
 require('custom-env').env();
 
 const openai = new OpenAI();
+const MAX_CHARS_FOR_AI = 45000;
 
 const processDocument = async (req, res) => {
   try {
     const id = req.query.id;
     let result;
 
-    if (id) {
-      // Obtengo la obra por id
-      result = await axios.get(`https://contratacionesabiertas.osce.gob.pe/api/v1/release/${id}`, {
-        headers: {
-          "Accept": "*/*",
-        }
-      });
-    } else {
-      // Obtengo las últimas obras
-      result = await axios.get(`https://contratacionesabiertas.osce.gob.pe/api/v1/releases?page=1&order=desc&sourceId=seace_v3&mainProcurementCategory=works`, {
-        headers: {
-          "Accept": "*/*",
-        }
-      });
-    }
-
-    const contracts = getContractsFromReleases(result.data.releases);
-
-    const contractToUse = contracts[0]; // Solo agarro el último contrato
-    console.log('contractToUse', contractToUse);
-    const docsToDownload = contractToUse.documents.filter(d => d.format === 'pdf').slice(0, 2); // Voy a descargar dos documentos como máximo
-
     let textsToAnalyze = [];
 
-    // Descargo los documentos
-    console.log(`Descargando ${docsToDownload.length} documentos...`);
-    const urlsToDownload = docsToDownload.map(d => d.url);
+    let results = await queryDB('CALL obtener_cache_obra(?)', [id]);
+    const cache = results[0][0]?.cache_json;
+    if (cache.length > 0) {
+      console.log('El registro tiene caché...');
+      textsToAnalyze = cache;
+    } else {
+      console.log('El registro NO tiene caché...');
+      if (id) {
+        // Obtengo la obra por id
+        result = await axios.get(`https://contratacionesabiertas.osce.gob.pe/api/v1/release/${id}`, {
+          headers: {
+            "Accept": "*/*",
+          }
+        });
+      } else {
+        // Obtengo las últimas obras
+        result = await axios.get(`https://contratacionesabiertas.osce.gob.pe/api/v1/releases?page=1&order=desc&sourceId=seace_v3&mainProcurementCategory=works`, {
+          headers: {
+            "Accept": "*/*",
+          }
+        });
+      }
 
-    console.log('urlsToDownload', urlsToDownload);
-    const pdfsData = await Promise.all(urlsToDownload.map(url => getPdfDataFromUrl(url)));
+      const contracts = getContractsFromReleases(result.data.releases);
 
-    textsToAnalyze = pdfsData.map(({ pdfData }) => pdfData.text.slice(0, 50000).replace(/\n/g, " ").trim());
+      const contractToUse = contracts[0]; // Solo agarro el último contrato
+      console.log('contractToUse', contractToUse);
+      const docsToDownload = contractToUse.documents.filter(d => d.format === 'pdf').slice(0, 2); // Voy a descargar dos documentos como máximo
 
-    console.log('textsToAnalyze', textsToAnalyze);
 
-    // Solo es válido si es que hay, al menos, un elemento en el array no vacío
-    const isValid = textsToAnalyze.filter(t => t.trim()).length > 0;
+      // Descargo los documentos
+      console.log(`Descargando ${docsToDownload.length} documentos...`);
+      const urlsToDownload = docsToDownload.map(d => d.url);
 
-    if (!isValid) {
-      console.log('Leyendo OCR...');
-      getTextFromPdfBufferOcr(pdfsData.map(({ buffer }) => buffer));
+      console.log('urlsToDownload', urlsToDownload);
+      const pdfsData = await Promise.all(urlsToDownload.map(url => getPdfDataFromUrl(url)));
 
-      return res.json({ keypoints: {} });
+      textsToAnalyze = pdfsData.map(({ pdfData }) => pdfData.text.slice(0, (MAX_CHARS_FOR_AI / pdfsData.length)).replace(/\n/g, " ").trim());
+
+      console.log('textsToAnalyze', textsToAnalyze);
+
+      // Solo es válido si es que hay, al menos, un elemento en el array no vacío
+      const isValid = textsToAnalyze.filter(t => t.trim()).length > 0;
+
+      if (!isValid) {
+        console.log('Leyendo OCR...');
+        resultTexts = await getTextFromPdfBufferOcr(pdfsData.map(({ buffer }) => buffer), 20);
+        console.log('resultTexts', resultTexts);
+        textsToAnalyze = [resultTexts.join(" ").slice(0, MAX_CHARS_FOR_AI)];
+      }
     }
 
     const questionsToMake = [
@@ -106,7 +117,14 @@ const processDocument = async (req, res) => {
     });
 
     const response = completion.choices[0].message.content;
-    console.log('response', response);
+    console.log('IA response', response);
+
+    // Actualiza el caché si es que no existía
+    if (cache.length === 0) {
+      console.log('Guardando caché...');
+      await queryDB('CALL actualizar_cache_obra(?,?)', [id, JSON.stringify(textsToAnalyze)]);
+    }
+
     const keypoints = extractKeypointsFromText(response, questionsToMake);
     console.log('keypoints', keypoints);
     res.json({ keypoints, textsToAnalyze });
